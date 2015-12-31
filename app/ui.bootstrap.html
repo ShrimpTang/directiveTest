@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div ng-controller="AlertDemoCtrl">
+    <script type="text/ng-template" id="alert.html">
+        <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+            <div ng-transclude></div>
+        </div>
+    </script>
+
+    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+    <uib-alert type="success" close="close(this)">asfsfsfsfsfsfsfsfsfsfsfsf</uib-alert>
+    <uib-alert template-url="alert.html">A happy alert!</uib-alert>
+    <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+</div>
+</body>
+<script>
+    angular.module('ui.bootstrap.demo', ['ui.bootstrap'])
+            .controller('AlertDemoCtrl', ['$scope', function ($scope) {
+                $scope.close = function (o) {
+                    console.info(o);
+                }
+            }]);
+
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<input type="text" simple-model="qq"/>
+<span simple-bind="qq"></span>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .directive('simpleModel', function ($parse) {
+                return {
+                    link: function (scope, element, attrs) {
+                        var modelGetter = $parse(attrs.simpleModel);
+                        var modelSetter = modelGetter.assign;
+
+                        scope.$watch(modelGetter, function (newVal, oldVal) {
+                            element.val(newVal);
+                        })
+                        element.bind('input', function () {
+                            scope.$apply(function () {
+                                var value = element.val();
+                                modelSetter(scope, value);
+                            })
+                        })
+                    }
+                }
+            })
+            .directive('simpleBind', function ($parse) {
+                return {
+                    link: function (scope, element, attrs) {
+                        var modelGetter = $parse(attrs.simpleBind);
+                        scope.$watch(modelGetter, function (newVal,oldVal) {
+                            element.text(modelGetter(scope));
+                        })
+                    }
+                }
+            })
+            .controller('myCtrl', function ($scope) {
+                $scope.qq = '403';
+            });
+</script>
+</body>
+</html>

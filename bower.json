@@ -1,0 +1,21 @@
+{
+  "name": "directive",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "ShrimpTang <google711tang>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "~0.2.15"
+  }
+}

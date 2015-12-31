@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<input type="text" ng-model="name" lowercase/>
+{{name}}
+<button ng-click="change1()">change1</button>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+
+    angular.module('myApp',[])
+            .directive('lowercase', function () {
+                return{
+                    restrict:'A',
+                    require:'?ngModel',
+                    link:function(scope,element,attrs,ngModel){
+                        function viewChange(val){
+                            console.info('view');
+                            return (val||'').toLowerCase();
+                        }
+                        function modelChange(val){
+                            console.info('model');
+                            return (val||'').toUpperCase();
+                        }
+                        ngModel.$parsers.push(viewChange);//view改变的时候调用
+                        ngModel.$formatters.push(modelChange);//model改变的时候调用
+
+                    }
+                }
+            })
+            .controller('myCtrl', function ($scope) {
+                $scope.change1= function () {
+                    $scope.name='lrkejglkLKJLJLasdf';
+                }
+            })
+</script>
+</body>
+</html>

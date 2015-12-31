@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<accordion>
+    <expander ng-repeat="e in expenders" expander-title="e.title">
+        {{e.text}}
+    </expander>
+</accordion>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .directive('accordion', function () {
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    template: '<div ng-transclude></div>',
+                    transclude : true,
+                    controller: function () {
+                        var expanders = [];
+                        this.closeOtherExpander = function (expander) {
+                            angular.forEach(expanders, function (e) {
+                                if (expander != e) {
+                                    e.showMe = false;
+                                }
+                            })
+                        }
+                        this.addExpander = function (expander) {
+                            expanders.push(expander);
+                        }
+                    }
+                }
+            })
+            .directive('expander', function () {
+                return {
+                    restrict: 'EA',
+                    replace:true,
+                    transclude : true,
+                    require: '^?accordion',
+                    scope: {
+                        title: '=expanderTitle'
+                    },
+                    template: '<div>'
+                    + '<div class="title" ng-click="toggle()">{{title}}</div>'
+                    + '<div class="body" ng-show="showMe" ng-transclude></div>'
+                    + '</div>',
+                    link: function (scope, element, attrs, accordionCtrl) {
+                        scope.showMe = false;
+                        accordionCtrl.addExpander(scope);
+                        scope.toggle = function () {
+                            scope.showMe = !scope.showMe;
+                            accordionCtrl.closeOtherExpander(scope);
+                        }
+                    }
+                }
+            })
+            .controller('myCtrl', ['$scope', function ($scope) {
+                $scope.expenders = [
+                    {
+                        title: '111111111111',
+                        text: '``````````11`1`1`1`1`1`1`1`1`1`1`1`1`1`1`'
+                    },
+                    {
+                        title: '2222222222222222',
+                        text: '`````````````222222222222222'
+                    },
+                    {
+                        title: '3333333333333',
+                        text: '1`3````````3`3`3`3`3`3`3`3`3`3`3`3`3`3'
+                    }
+                ]
+            }]);
+
+</script>
+</body>
+</html>

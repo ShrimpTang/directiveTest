@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+
+<a ui-sref="state1">State 1</a>
+<a ui-sref="state2">State 2</a>
+<button ng-click="addUI()">addUI</button>
+<div ui-view></div>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script>
+    var $stateProviderRef;
+    angular.module('myApp', ['ui.router'])
+            .config(function ($stateProvider, $urlRouterProvider) {
+                $stateProviderRef = $stateProvider;
+                $stateProvider.state('state1', {
+                    url: '/state1',
+                    templateUrl: 'state1.tmp.html'
+                }).state('state1.list', {
+                    url: '/list',
+                    templateUrl: 'state1.list.tmp.html',
+                    controller: function ($scope) {
+                        $scope.items = ['2345', '23453452', '35243452', '5234 3452']
+                    }
+                }).state('state2', {
+                    url: '/state2',
+                    templateUrl: 'state2.tmp.html'
+                }).state('state2.list', {
+                    url: '/list',
+                    templateUrl: 'state2.list.tmp.html',
+                    controller: function ($scope) {
+                        $scope.things = ['2e1', '2e', 'debvgftr', 'brnhj sgty']
+                    }
+
+                });
+            })
+            .controller('myCtrl', ['$scope', function ($scope) {
+                $scope.addUI = function () {
+                        $('body').append('<div ui-view></div>');
+                }
+            }]);
+
+</script>
+</body>
+</html>

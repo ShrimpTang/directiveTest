@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl" ng-init="myModel = {}">
+<form name="form" class="form-inline" novalidate>
+    <field ng-model="myModel.myText" type="text" required="true">
+        <label>My {{'Text'}}</label>
+        <validator key="required">My Text is required</validator>
+    </field>
+</form>
+<pre>{{myModel|json}}</pre>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .run(function ($templateCache) {
+                $templateCache.put("input.html",
+                        "<div class=\"control-group\" ng-class=\"{'error' : $field.$invalid && $field.$dirty, 'success' : $field.$valid && $field.$dirty}\">" +
+                        "  <label class=\"control-label\"></label>" +
+                        "  <div class=\"controls\">" +
+                        "    <input>" +
+                        "    <span class=\"help-inline\" ng-repeat=\"error in $fieldErrors\">{{$validationMessages[error](this)}}</span>" +
+                        "  </div>" +
+                        "</div>");
+            })
+            .directive('field', function ($compile, $http, $templateCache, $interpolate) {
+                function getValidationMessageMap(element) {
+                    var ValidationMessages = {};
+                    angular.forEach(element.find('validator'), function (e) {
+                        e = angular.element(e);
+                        ValidationMessages[e.attr('key')] = $interpolate(e.text());
+                    });
+                    return ValidationMessages;
+                }
+
+                function getLabelContent(element) {
+                    var label = element.find('label');
+                    return label[0] && label.html();
+                }
+
+                function loadTemplate(template) {
+                    return $http.get(template, {cache: $templateCache})
+                            .then(function (response) {
+                                return angular.element(response.data);
+                            }, function (response) {
+                                throw new Error('Template is not found' + template);
+                            });
+                }
+
+                function findInputELement(elememt) {
+                    return angular.element(elememt.find('input')[0]);
+                }
+
+                return {
+                    restrict: 'E',
+                    priority: 100,
+                    terminal: true,
+                    compile: function (element, attrs) {
+                        var validationMessages = getValidationMessageMap(element);
+                        var labelContent = getLabelContent(element);
+                        element.html('');
+                        return function postLink(scope, element, attrs) {
+                            loadTemplate(attrs.template || 'input.html').then(function (templateElement) {
+                                var childScope = scope.$new();
+                                childScope.$validationMessages = angular.copy(validationMessages);
+                                childScope.$fieldId = attrs.ngModel.replace('.', '_').toLowerCase() + '_' + childScope.$id;
+                                childScope.$fieldLabel = labelContent;
+                                childScope.$watch('$field.$dirty && $field.$error', function (errorList) {
+                                    childScope.$fieldErrors = [];
+                                    angular.forEach(errorList, function (invalid, key) {
+                                        if (invalid) {
+                                            childScope.$fieldErrors.push(key);
+                                        }
+                                    })
+                                }, true);
+
+                                var inputElement = findInputELement(templateElement);
+                                angular.forEach(attrs.$attr, function (original, normalized) {
+                                    var value = element.attr(original);
+                                    inputElement.attr(original, value);
+                                });
+                                inputElement.attr('name', childScope.$fieldId);
+                                inputElement.attr('id', childScope.$fieldId);
+                                var labelElement = templateElement.find('label');
+                                labelElement.attr('for', childScope.$fieldId);
+                                labelElement.html(labelContent);
+                                element.append(templateElement);
+                                $compile(templateElement)(childScope);
+                                childScope.$field = inputElement.controller('ngModel');
+                            });
+                        }
+                    }
+                }
+            })
+            .controller('myCtrl', ['$scope', function ($scope) {
+
+            }]);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        body {
+            width: auto;
+        }
+
+        .itemGroup {
+            overflow-x: scroll;
+            width: auto;
+            white-space: nowrap;
+        }
+
+        .item {
+            display: inline-block;
+            width: 300px;
+            height: 800px;
+            border: 1px solid;
+        }
+
+        .item-min {
+            display: inline-block;
+            width: 100px;
+            height: 800px;
+            border: 1px solid;
+        }
+
+        .item-max {
+            width: 100%;
+        }
+
+        .item-min {
+            width: 10%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        span {
+            margin-left: 20px;
+            cursor: pointer;
+            color: #62a08a;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<!--<pre>{{itemts | json}}</pre>-->
+<span id="debug"></span>
+<span id="down"></span>
+<span ng-repeat="item in itemts track by $index" ng-click="to($index)">{{item.title}}</span>
+<item-group>
+    <item ng-repeat="item in itemts track by $index" close="close($index)" add="add($index)" title="{{item.title}}">
+        <div>{{$index}}</div>
+    </item>
+</item-group>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/lodash/lodash.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+
+<script>
+    angular.module('myApp', [])
+            .directive('itemGroup', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    replace: true,
+                    template: '<div class="itemGroup" ng-transclude></div>',
+                    link: function (scope, element, attrs) {
+                        var isMove = false;
+                        var downX;
+                        var oldScrollLeft = element.scrollLeft();
+                        element.on('mousemove', function (e) {
+                            $("#debug").text(e.pageX);
+                            if (isMove) {
+                                console.info(e.pageX-downX);
+                                element.scrollLeft( oldScrollLeft+(e.pageX-downX));
+                            }
+                        });
+                        element.on('mousedown', function (e) {
+                            isMove = true;
+                            oldScrollLeft = element.scrollLeft();
+                            downX = e.pageX;
+                            $("#down").text(e.pageX);
+                        });
+                        element.on('mouseup', function (e) {
+                            isMove = false;
+                            $("#down").text(e.pageX);
+                        });
+                    },
+                    controller: function ($scope) {
+                        var items = [];
+                        this.addItem = function (item) {
+                            items.push(item);
+                        }
+                        this.itemMax = function (item) {
+                            _.forEach(items, function (i) {
+                                if (item == i) {
+                                    i.addClass('item-max').removeClass('item-min');
+                                } else {
+                                    // i.removeClass('item-max');
+                                }
+                            });
+                        }
+                    }
+                }
+            })
+            .directive('item', function () {
+                return {
+                    restrict: 'E',
+                    require: '^itemGroup',
+                    replace: true,
+                    transclude: true,
+                    scope: {
+                        close: "&",
+                        add: "&",
+                        title: "@"
+                    },
+                    template: '<div class="item" >\n    <div>{{title}}</div>\n    <button ng-click="close()">close</button>\n    <button ng-click="add()">add</button>\n    <button ng-click="max()">max</button>\n    <button ng-click="min()">min</button>\n    <div ng-transclude></div>\n</div>\n',
+                    link: function (scope, element, attrs, itemGroupCtrl) {
+                        itemGroupCtrl.addItem(element);
+                        scope.max = function () {
+                            itemGroupCtrl.itemMax(element);
+                            var parent = element.parent();
+                            parent.scrollLeft(parent.scrollLeft() + element.offset().left);
+                        }
+                        scope.min = function () {
+                            element.addClass('item-min').removeClass('item-max')
+                        }
+                    }
+                }
+            })
+            .controller('myCtrl', ['$scope', function ($scope) {
+                $scope.itemts = [{
+                    title: 'admin'
+                }, {
+                    title: '1'
+                }, {
+                    title: '2'
+                }];
+                $scope.close = function (index) {
+                    $scope.itemts = $scope.itemts.slice(0, index);
+                }
+
+                $scope.add = function (index) {
+                    $scope.itemts = $scope.itemts.slice(0, index + 1);
+                    $scope.itemts.push({
+                        title: 'title' + Date.now()
+                    })
+                }
+                $scope.to = function (index) {
+                    var element = $(".item ").eq(index);
+                    var parent = element.parent();
+                    parent.scrollLeft(parent.scrollLeft() + element.offset().left);
+                }
+            }]);
+
+</script>
+</body>
+</html>

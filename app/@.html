@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<qa my-name="{{qq}}"></qa>
+<input type="text" ng-model="cc"/>
+<button ng-click="showCc();">showCc</button>
+<button ng-click="setCcV();">showCc</button>
+<button ng-click="setCcM();">showCc</button>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp',[])
+            .directive('qa', function () {
+                return {
+                    restrict:'E',
+                    scope:{
+                        name:'@myName'
+                    },
+                    template:'<div>{{name}}</div>'
+                }
+            })
+
+            .controller('myCtrl', function ($scope) {
+                $scope.qq = '403';
+                $scope.cc = 'cc';
+                $scope.showCc = function () {
+                 //                                                             console.info($scope.cc.$viewValue+"@"+$scope.cc.$modelValue);
+                }
+                $scope.setCcV = function () {
+                  //  $scope.cc.$setViewValue('setV');
+                }
+                $scope.setCcM = function () {
+                    //$scope.cc.$setViewValue('setM');
+                }
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<form name="testForm">
+    <input type="text" name="testInput" ng-model="model.testInput"/>
+    <button ng-click="showInputVal()">showInputVal</button>
+</form>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+
+    angular.module('myApp', [])
+
+            .controller('myCtrl', function ($scope) {
+                $scope.model={};
+                $scope.showInputVal= function () {
+                    console.info($scope.testForm.testInput);
+                }
+            })
+</script>
+</body>
+</html>

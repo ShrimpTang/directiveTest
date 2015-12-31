@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<span ng-repeat="l in list" ngre>
+    {{$index}}{{l}}
+</span>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .controller('myCtrl', function ($scope) {
+                $scope.list=['qq','eq','qew','fr'];
+            })
+</script>
+</body>
+</html>
