@@ -35,14 +35,13 @@
 
         .frame ul li {
             float: left;
-            width: 127px;
+            /*width: 127px;*/
             height: 100%;
             margin: 0 1px 0 0;
             padding: 0;
             background: #333;
             color: #ddd;
             text-align: center;
-            cursor: pointer;
         }
 
         .frame ul li.active {
@@ -157,22 +156,27 @@
 
     <div class="frame" id="basic" style="overflow: hidden;">
         <ul class="clearfix" style="transform: translateZ(0px) translateX(0px);">
-            <li>0</li>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-         <!--   <li>8</li>
-            <li>9</li>
-            <li>10</li>
-            <li>11</li>
-            <li>12</li>
-            <li>13</li>
-            <li>14</li>
-            <li>15</li>-->
+            <li>
+                <div>
+                    1
+                </div>
+            </li>
+
+            <!--<li>1</li>-->
+            <!--<li>2</li>-->
+            <!--<li>3</li>-->
+            <!--<li>4</li>-->
+            <!--<li>5</li>-->
+            <!--<li>6</li>-->
+            <!--<li>7</li>-->
+         <!--<li>8</li>-->
+            <!--<li>9</li>-->
+            <!--<li>10</li>-->
+            <!--<li>11</li>-->
+            <!--<li>12</li>-->
+            <!--<li>13</li>-->
+            <!--<li>14</li>-->
+            <!--<li>15</li>-->
         </ul>
     </div>
 
@@ -216,7 +220,6 @@ $(function () {
         itemNav: 'centered',
         smart: 1,
         activateOn: 'click',
-        mouseDragging: 1,
         touchDragging: 1,
         releaseSwing: 1,
         startAt: 4,
@@ -227,6 +230,7 @@ $(function () {
         dragHandle: 1,
         dynamicHandle: 1,
         clickBar: 1,
+        scrollTrap:1
     };
 $(".frame").sly(options);
     
