@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+
+<button ng-click="change()">c</button>
+<button ng-click="add()">a</button>
+
+<div ui-view="view1"></div>
+<div ui-view="view2"></div>
+<div ui-view="view3"></div>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script>
+    var $stateProviderRef;
+    angular.module('myApp', ['ui.router'])
+            .config(function ($stateProvider, $urlRouterProvider, $viewProvider) {
+                //console.info($viewProvider);
+                $stateProviderRef = $stateProvider;
+                $stateProvider.state('state1', {
+                    url: "/",
+                    views: {
+                        "view1": {
+                            templateUrl: 'view1.html'
+                        },
+                        "view2": {
+                            templateUrl: 'view2.html'
+                        }
+                        ,
+                        "view3": {
+                            templateUrl: 'view3.html'
+                        }
+                    }
+
+                })
+            })
+            .controller('myCtrl', ['$scope', '$view', '$state', function ($scope, $view, $state) {
+                $scope.change = function () {
+                    $state.get("state1").views.view1.templateUrl='view2.html'
+//                    $view.load('view1@', {
+//                        "view": {
+//                            templateUrl: 'view2.html'
+//                        }
+//                    })
+                    $state.reload();
+                }
+                $scope.add = function () {
+                    $state.get("state1").views.view3={
+                        templateUrl: 'view3.html'
+                    }
+                    $state.reload();
+                }
+
+            }]);
+
+</script>
+</body>
+</html>
