@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+<tab-group>
+    <tab-item type="list"></tab-item>
+</tab-group>
+<button ng-click="add()"></button>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .directive('tabGroup', function () {
+                return {
+                    replace: true,
+                    restrict: 'E',
+                    transclude: true,
+                    //scope:{},
+                    template: '<div ng-transclude id="qq"></div>',
+                    controller: function ($element,$compile,$scope) {
+//                        this.tabItems = [];
+//                        var addItem = function (item) {
+//                            this.tabItems.push(item);
+//                        }
+//                        this.addItem = addItem;
+//                        this.removeItem = function (item) {
+//
+//                        }
+                        this.addItem = function (item) {
+                            $element.append(item);
+                            $compile(item)($scope);
+                        }
+                    }
+                }
+            })
+            .directive('tabItem', function () {
+                return {
+                    replace: true,
+                    restrict: 'E',
+                    require: '^tabGroup',
+                    scope: {
+                        type: '@'
+                    },
+                    template: '<div>{{type}}<tab-view type="{{type}}"></tab-view></div>',
+                    link: function (scope, element, attrs, tabGroupCtrl) {
+                        console.info(element);
+                      //  tabGroupCtrl.addItem(element);
+                    }
+                }
+            })
+            .directive('tabView', function ($templateCache,$http,$compile) {
+
+                var getTemplate = function (contentType) {
+                    var templateLoder,
+                            templateMap = {
+                                'detail': "tab.detail.tmp.html",
+                                'list':'tab.list.tmp.html'
+                            }
+                    var templateUrl = templateMap[contentType];
+                    templateLoder= $http.get(templateUrl,{cache:$templateCache});
+                    return templateLoder;
+
+                }
+
+                var linker= function (scope, element, attrs,tabGroupCtrl) {
+                    scope.tabGroupCtrl = tabGroupCtrl;
+                    var loader = getTemplate(attrs.type);
+                    var promise = loader.success(function(html) {
+                        element.html(($compile(html)(scope)));
+                    })
+                }
+
+                return {
+                    replace: true,
+                    require:'^tabGroup',
+                    restrict: 'E',
+                    scope: {
+                    },
+                    link:linker,
+                    controller:['$scope','$element', function ($scope,$element) {
+                        console.info($element.parent());
+                        var view = this;
+                        view.addList= function () {
+                            $element.parent().nextAll().remove();
+                            $scope.tabGroupCtrl.addItem($('<tab-item type="list"></tab-item>'))
+                        }
+                        view.addDetail= function () {
+                            $element.parent().nextAll().remove();
+                            $scope.tabGroupCtrl.addItem($('<tab-item type="detail"></tab-item>'))
+                        }
+                        view.remove= function () {
+                            $element.parent().nextAll().remove();
+                            $element.parent().remove();
+                        }
+                    }],
+                    controllerAs:'view'
+                }
+            })
+            .controller('myCtrl', function ($scope, $compile) {
+                $scope.add = function () {
+                    var item = $('<tab-item type="detail"></tab-item>');
+                    $('#qq').append(item);
+                    $compile(item)($scope);
+                }
+            });
+    (function (window, angular) {
+
+    })(window, window.angular);
+</script>
+</body>
+</html>

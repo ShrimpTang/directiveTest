@@ -22,7 +22,10 @@
         .frame {
             height: 666px;
             line-height: 250px;
-            overflow: hidden;
+            /*overflow: hidden;*/
+            /*font-size: 0;*/
+            overflow-x: auto;
+            position: relative;
         }
 
         .frame ul {
@@ -136,6 +139,8 @@
             width: 400px;
             margin: 0 30px 0 2px;
         }
+        .div_parent { width: 1000px; border: 1px solid purple; overflow-y: hidden; overflow-x: auto; white-space: nowrap; }
+        .div_child { width: 100px; height:300px; border: 1px solid green; display: inline-block; margin: 1ex; }
     </style>
 </head>
 <body>
@@ -155,12 +160,15 @@
     </div>
 
     <div class="frame" id="basic" style="overflow: hidden;">
+        <!--<div class="div_parent" >-->
+
+        <!--</div>-->
         <ul class="clearfix" style="transform: translateZ(0px) translateX(0px);">
-            <li>
-                <div>
-                    1
-                </div>
-            </li>
+            <!--<li>-->
+                <!--<div>-->
+                    <!--1-->
+                <!--</div>-->
+            <!--</li>-->
 
             <!--<li>1</li>-->
             <!--<li>2</li>-->
@@ -178,6 +186,7 @@
             <!--<li>14</li>-->
             <!--<li>15</li>-->
         </ul>
+
     </div>
 
     <ul class="pages">
@@ -211,6 +220,15 @@
         <button class="btn nextPage disabled" disabled="">page <i class="icon-chevron-right"></i><i class="icon-chevron-right"></i></button>
     </div>-->
 </div>
+
+
+<div class="div_parent">
+    <div class="div_child"></div><div class="div_child"></div><div class="div_child"></div><div class="div_child"></div>
+    <div class="div_child"></div><div class="div_child"></div><div class="div_child"></div><div class="div_child"></div>
+    <div class="div_child"></div><div class="div_child"></div><div class="div_child"></div><div class="div_child"></div>
+    <div class="div_child"></div><div class="div_child"></div><div class="div_child"></div><div class="div_child"></div>
+    <div class="div_child"></div><div class="div_child"></div><div class="div_child"></div><div class="div_child"></div>
+</div>
 <script src="../bower_components/jquery/dist/jquery.js"></script>
 <script src="../bower_components/sly/dist/sly.js"></script>
 <script>
@@ -241,7 +259,8 @@ $(".frame").sly(options);
         $(".frame").sly('remove', -1);
     });
     $("#add").click(function () {
-        $(".frame").sly('add', '<li>'+$('li').length+'</li>');
+        $(".frame").sly('add', '<li><div>'+$('li').length+'</div></li>');
+       // $(".frame").sly('add', '<div class="div_child">'+$('div').length+'</div>');
         $(".frame").sly('toEnd');
     });
 });

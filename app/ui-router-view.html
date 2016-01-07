@@ -30,10 +30,10 @@
                         "view2": {
                             templateUrl: 'view2.html'
                         }
-                        ,
-                        "view3": {
-                            templateUrl: 'view3.html'
-                        }
+//                        ,
+//                        "view3": {
+//                            templateUrl: 'view3.html'
+//                        }
                     }
 
                 })
@@ -49,10 +49,11 @@
                     $state.reload();
                 }
                 $scope.add = function () {
-                    $state.get("state1").views.view3={
-                        templateUrl: 'view3.html'
-                    }
-                    $state.reload();
+
+//                    $state.get("state1").views.view3={
+//                        templateUrl: 'view3.html'
+//                    }
+//                    $state.reload();
                 }
 
             }]);

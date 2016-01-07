@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+<nt></nt>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .directive('nt', function ($http,$compile) {
+                return {
+                    restrict:'E',
+                    scope:{},
+                    /*template:'',*/
+                    compile: function (element, attrs) {
+                        return function postLink(scope,element,attrs) {
+                            scope.qq='40390303';
+                            $http.get('ngTemp.html').then(function (data) {
+                                element.append($compile(angular.element(data.data))(scope));
+                            });
+                        }
+                    }
+                }
+            })
+            .controller('myCtrl', ['$scope', function ($scope) {
+
+            }]);
+
+</script>
+</body>
+</html>
