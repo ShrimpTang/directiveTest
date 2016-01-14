@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .window{
+            width: 800px;
+            height: 500px;
+            background-color: white;
+            border: 1px solid black;
+        }
+        .window-title{
+            width: 100%;
+            background-color: #3A465E;
+            height: 100px;
+        }
+        .tools-close{
+            color: white;
+            font-size: 22px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .window-title-name{
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            margin-left: 7px;
+            margin-top: 7px;
+            font-family: '微软雅黑';
+        }
+
+    </style>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+</head>
+<body ng-controller="myCtrl">
+<window></window>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp',[])
+            .controller('myCtrl', function () {
+                
+            })
+            .directive('window', function () {
+                return {
+                    restrict:'E',
+                    replace:true,
+                    scope:{},
+                    templateUrl:'window.tpl.html',
+                    link: function (scope, element, attrs) {
+
+                    }
+                }
+            })
+</script>
+</body>
+</html>
