@@ -1,7 +1,21 @@
 <div class="window">
     <div class="window-title">
-        <span class="pull-left window-title-name">属性选择</span>
-        <span class="glyphicon glyphicon-remove pull-right  tools-close" aria-hidden="true"></span>
+        <div class="row" style="">
+            <div class="col-md-4" style="padding-left: 0px;padding-right: 0px;">
+                <span class="pull-left window-title-name">{{title}}</span>
+            </div>
+            <div class="col-md-8" style="padding-right: 0px;padding-left: 0px;">
+                <span class="glyphicon glyphicon-remove pull-right  tools-close" aria-hidden="true"></span>
+            </div>
+        </div>
+        <div class="row">
+            <ul style="list-style: none;">
+                <li style="width: 60px;text-align: center;float: left" ng-repeat="tool in tools track by $index">
+                <span class="glyphicon {{tool.icon}}" aria-hidden="true" style="color: white;font-size: 37px;"></span>
+                <span class="glyphicon-class ng-binding" style="color: white;display: block;font-family: '微软雅黑';">{{tool.text}}</span>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="window-content"></div>
+    <div class="window-content" ng-transclude></div>
 </div>

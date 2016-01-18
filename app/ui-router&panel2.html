@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: beige;
+            margin: 0;
+            padding: 0;
+        }
+
+        .panel-group {
+            list-style: none;
+            height: 100%;
+            overflow-x: auto;
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+            background-color: #252525;
+        }
+
+        .left-bar {
+            height: 99%;
+            padding: 0;
+            display: inline-block;
+            background-color: #73A7A7;
+            margin: 0;
+            width: 500px;
+        }
+
+
+
+        .panel {
+            height: 99%;
+            padding: 0;
+            display: inline-block;
+            background-color: #73A7A7;
+            margin: 0;
+            width: 500px;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<ul class="panel-group">
+    <li class="panel">
+        <div>
+            <div>
+                <a ui-sref="state1">state1</a>
+            </div>
+            <div>
+                <a href="">1</a>
+            </div>
+            <div>
+                <a href="">1</a>
+            </div>
+            <div>
+                <a href="">1</a>
+            </div>
+        </div>
+    </li>
+    <ui-view></ui-view>
+    <!--<panel></panel>-->
+    <!--<panel></panel>-->
+</ul>
+
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script>
+    angular.module('myApp', ['ui.router'])
+            .config(function ($stateProvider) {
+                $stateProvider.state('state1', {
+                            url: '/state1',
+                            templateUrl: 'state1.tpl.html'
+                        })
+                        .state('state1.state2', {
+                            url: '/state2',
+                            templateUrl:'state2.tpl.html'
+                        });
+            })
+            .controller('myCtrl', function () {
+
+            })
+            .directive('panel', function () {
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    transclude: true,
+                    templateUrl: 'panel2.tpl.html'
+                }
+            });
+
+</script>
+</body>
+</html>

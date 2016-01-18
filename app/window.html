@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style type="text/css">
-        .window{
-            width: 800px;
-            height: 500px;
-            background-color: white;
-            border: 1px solid black;
-        }
-        .window-title{
-            width: 100%;
-            background-color: #3A465E;
-            height: 100px;
-        }
         .tools-close{
             color: white;
             font-size: 22px;
@@ -29,29 +18,76 @@
             margin-top: 7px;
             font-family: '微软雅黑';
         }
+        html, body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+        .window-group{height: 100%;overflow-x: auto;width: auto;white-space: nowrap;}
+        .window {position:relative;display: inline-block;height:99%;width:800px;background:#999;}
+        .window-title {width:100%;height: 100px;background-color: #3A465E;}/*float:left;*/
+        .window-content {position:static;width:auto;    background-color: antiquewhite;overflow-y: auto;}/*height:99%;*/
+        .row {
+             margin-right: 0px !important;
+             margin-left: 0px !important;
+        }
 
     </style>
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
 </head>
 <body ng-controller="myCtrl">
-<window></window>
+
+<!--<div class="Bdy2">-->
+    <!--<div class="head"></div>-->
+    <!--<div class="autoHeight"></div>-->
+<!--</div>-->
+<div class="window-group">
+    <window title="{{title}}" tools="tools"></window>
+    <window></window>
+    <window></window>
+</div>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
 <script src="../bower_components/angular/angular.js"></script>
 <script>
     angular.module('myApp',[])
-            .controller('myCtrl', function () {
-                
+            .controller('myCtrl', function ($scope) {
+                $scope.title = '数学系';
+                $scope.tools = [
+                    {icon:'glyphicon-asterisk',text:'标签'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'},
+                    {icon:'glyphicon-asterisk',text:'标签2'}
+
+
+                ];
             })
             .directive('window', function () {
                 return {
                     restrict:'E',
                     replace:true,
-                    scope:{},
+                    transclude:true,
+                    scope:{
+                        title:'@',
+                        tools:'='
+                    },
                     templateUrl:'window.tpl.html',
                     link: function (scope, element, attrs) {
-
+                        angular.element(window).on('resize', function () {
+                            resize();
+                        });
+                        resize();
+                        function resize(){
+                            element.find('.window-content').height(element.height()-element.find('.window-title').height());
+                        }
                     }
                 }
             })
+
 </script>
 </body>
 </html>
