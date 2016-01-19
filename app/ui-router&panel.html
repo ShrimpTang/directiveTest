@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
     <style type="text/css">
         html, body {
             height: 100%;
@@ -10,7 +11,7 @@
             padding: 0px;
         }
 
-        .panel-group {
+        .ht-panel-group {
             height: 100%;
             overflow-x: auto;
             width: auto;
@@ -21,7 +22,6 @@
         .left-bar {
             position: relative;
             display: inline-block;
-           /* float: left;*/
             height: 99%;
             border: 1px solid #bce8f1;
             width: 200px;
@@ -36,20 +36,28 @@
             border-bottom: 1px solid #a9cfb2;
         }
 
-        .panel {
+        .ht-panel {
             position: relative;
             display: inline-block;
             height: 99%;
             border: 1px solid #bce8f1;
-          /*  float: left;*/
+            /*  float: left;*/
             width: 800px;
             background: #999;
             overflow-x: auto;
         }
+
+        .ht-panel-title {
+            margin: 0;
+        }
+
+        /*.ht-panel-content {*/
+            /*overflow-x: auto;*/
+        /*}*/
     </style>
 </head>
 <body ng-controller="myCtrl">
-<div class="panel-group">
+<div class="ht-panel-group">
     <div class="left-bar">
         <div>
             <a ui-sref="state1">state1</a>
@@ -65,22 +73,36 @@
         </div>
     </div>
     <ui-view></ui-view>
-    <!--<panel></panel>-->
-    <!--<panel></panel>-->
 </div>
-
+<script src="../bower_components/jquery/dist/jquery.js"></script>
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
 <script>
     angular.module('myApp', ['ui.router'])
             .config(function ($stateProvider) {
                 $stateProvider.state('state1', {
                             url: '/state1',
-                            templateUrl: 'state1.tpl.html'
+                            templateUrl: 'state1.tpl.html',
+                            controller: function ($scope) {
+                                var vm = this;
+                                vm.params = {
+                                    displayName:'Title123'
+                                }
+                            },
+                            controllerAs:'state1'
                         })
                         .state('state1.state2', {
                             url: '/state2',
-                            templateUrl:'state2.tpl.html'
+                            templateUrl: 'state2.tpl.html',
+                            controller: function ($scope) {
+                                var vm = this;
+                                vm.params = {
+                                    displayName:'Title22222222',
+                                    close:true
+                                }
+                            },
+                            controllerAs:'state2'
                         });
             })
             .controller('myCtrl', function () {
@@ -89,9 +111,30 @@
             .directive('panel', function () {
                 return {
                     restrict: 'E',
+                    scope: {
+                        params: "="
+                    },
                     replace: true,
                     transclude: true,
-                    templateUrl: 'panel.tpl.html'
+                    templateUrl: 'panel.tpl.html',
+                    link: function (scope, element, attrs) {
+                        scope.params = angular.extend({min:true,max:true},scope.params);
+                        scope.min = function () {
+                            element.css('width','100px');
+                            element.find('.ht-panel-content').hide();
+                        }
+                        scope.max = function () {
+                            element.css('width','99%');
+                            element.find('.ht-panel-content').show();
+                        }
+                        resize();
+                        $(window).resize(function () {
+                            resize();
+                        });
+                        function resize() {
+                            element.find('.ht-panel-content').height(element.height() - element.find('.ht-panel-title').height());
+                        }
+                    }
                 }
             });
 

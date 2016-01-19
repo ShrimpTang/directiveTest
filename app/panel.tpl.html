@@ -1,4 +1,11 @@
-<div class="panel">
-    YYYYYY
-    <div ng-transclude></div>
+<div class="ht-panel">
+    <div class="row ht-panel-title">
+     <!--   <div class="col-md-4"><h2>{{params.displayName}}</h2></div>-->
+        <div class="col-md-12" style="padding-right: 0px;padding-left: 0px;">
+            <span ng-if="params.close" ui-sref="^" class="glyphicon glyphicon-remove pull-right tools-close" aria-hidden="true"></span>
+            <span ng-if="params.max" ng-click="max()" class="glyphicon glyphicon-unchecked pull-right"  aria-hidden="true"></span>
+            <span ng-if="params.min" ng-click="min()" class="glyphicon glyphicon-minus pull-right" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div ng-transclude class="ht-panel-content"></div>
 </div>

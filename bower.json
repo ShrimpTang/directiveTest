@@ -19,6 +19,7 @@
     "angular-ui-router": "~0.2.15",
     "sly": "darsain/sly#~1.6.1",
     "jquery": "~2.1.4",
-    "jquery.stacky": "~0.3.7"
+    "jquery.stacky": "~0.3.7",
+    "bootstrap": "~3.3.6"
   }
 }
