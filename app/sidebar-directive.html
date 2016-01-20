@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .ht-side-bar {
+            background-color: #2E3646;
+            width: 200px;
+            list-style: none;
+        }
+
+        .ht-side-bar-close {
+            width: 60px;
+        }
+
+        .ht-side-bar a {
+            color: white;
+            font-size: 20px;
+        }
+
+        .ht-side-bar li {
+            height: 50px;
+            vertical-align: middle;
+            line-height: 55px;
+            margin-left: -20px;
+        }
+
+        .ht-side-bar-icon {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<ht-side-bar>
+    <!--<ht-side-bar-item  display-name="轧差" toggle="true"></ht-side-bar-item>-->
+    <ht-side-bar-item ng-repeat="t in test" display-name="{{t}}"></ht-side-bar-item>
+</ht-side-bar>
+
+<!--</ul>-->
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp',[])
+            .directive('htSideBar', function () {
+                return {
+                    restrict:'E',
+                    transclude:true,
+                    replace:true,
+                    template:'<ul class="ht-side-bar" ng-transclude></ul>',
+                    controller: function ($element) {
+                        this.toggle = function(){
+                            if ($element.hasClass('ht-side-bar-close')) {
+                                $element.find('span').show();
+                                $element.removeClass("ht-side-bar-close");
+                            } else {
+                                $element.find('span').hide();
+                                $element.addClass("ht-side-bar-close");
+                            }
+                        }
+                    }
+                }
+            })
+            .directive('htSideBarItem', function () {
+                return {
+                    restrict:'E',
+                    required:'^htSideBar',
+                    replace:true,
+                    template:'<li class="ht-side-bar-item">\n    <a   href="javascript:void(0)">\n        <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>\n        <span>{{displayName}}</span>\n    </a>\n</li>',
+                    scope:{
+                        displayName:"@",
+                        toggle:"@"
+                    },
+                    link: function (scope, element, attrs, htSideBarCtrl) {
+
+                        if(scope.toggle){
+                            element.find('a').click(function () {
+                                htSideBarCtrl.toggle();
+                            });
+                        }else{
+                            element.find('a').click(function () {
+                                console.info('asdf')
+                            });
+                        }
+
+                    }
+                }
+
+            })
+            .controller('myCtrl', function ($scope) {
+                $scope.test = ['C','B']
+            });
+</script>
+</body>
+</html>

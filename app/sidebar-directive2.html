@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .ht-side-bar {
+            background-color: #2E3646;
+            width: 200px;
+            list-style: none;
+        }
+
+        .ht-side-bar-close {
+            width: 60px;
+        }
+
+        .ht-side-bar a {
+            color: white;
+            font-size: 20px;
+        }
+
+        .ht-side-bar li {
+            height: 50px;
+            vertical-align: middle;
+            line-height: 55px;
+            margin-left: -20px;
+        }
+
+        .ht-side-bar-icon {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body ng-controller="myCtrl">
+<ht-side-bar>
+    <ht-side-bar-item ng-repeat="t in test" display-name="{{t.displayName}}" icon="{{t.icon}}" toggle="{{t.toggle}}"></ht-side-bar-item>
+</ht-side-bar>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .controller('htSidebarCtrl', ['$scope', '$element', function ($scope, $element) {
+                this.toggle = function () {
+                    if ($element.hasClass('ht-side-bar-close')) {
+                        $element.find('span').show();
+                        $element.removeClass("ht-side-bar-close");
+                    } else {
+                        $element.find('span').hide();
+                        $element.addClass("ht-side-bar-close");
+                    }
+                }
+            }])
+            .directive('htSideBar', function () {
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    replace: true,
+                    controller: 'htSidebarCtrl',
+                    template: '<ul class="ht-side-bar" ng-transclude></ul>',
+                    link: function (scope, element, attrs) {
+                    }
+                };
+            })
+
+            .directive('htSideBarItem', function () {
+                return {
+                    require: '^htSideBar',         // We need this directive to be inside an accordion
+                    restrict: 'E',                 // It will be an element
+                    replace: true,                // The element containing the directive will be replaced with the template
+                    scope: {
+                        displayName: "@",
+                        toggle: "@",
+                        icon: '@'
+                    },
+                    template: '<li class="ht-side-bar-item">\n    <a  ng-click="click()"  href="javascript:void(0)">\n        <i class="glyphicon {{icon}}  ht-side-bar-icon" aria-hidden="true"></i>\n        <span>{{displayName}}</span>\n    </a>\n</li>',
+                    link: function (scope, element, attrs, htSidebarCtrl) {
+                        scope.click = function () {
+                            if (scope.toggle) {
+                                htSidebarCtrl.toggle();
+                            } else {
+                                console.info('asdf')
+                            }
+                        }
+                    }
+                };
+            }).controller('myCtrl', function ($scope) {
+        $scope.test = [
+            {
+                toggle: true,
+                icon: 'glyphicon-menu-hamburger'
+
+            },
+            {
+                displayName: '行政村',
+                icon: 'glyphicon-plus'
+            },
+            {
+                displayName: '发送',
+                icon: 'glyphicon-plus'
+            }]
+    });
+
+</script>
+</body>
+</html>

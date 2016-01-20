@@ -8,11 +8,13 @@
         .ht-side-bar {
             background-color: #2E3646;
             width: 200px;
-        }
-
-        .ht-side-bar ul {
             list-style: none;
         }
+
+         .ht-side-bar-close {
+             width: 60px;
+         }
+
 
         .ht-side-bar a {
             color: white;
@@ -31,74 +33,105 @@
     </style>
 </head>
 <body>
-<div class="ht-side-bar">
-    <ul>
+    <ul class="ht-side-bar">
         <li>
             <a href="#">
-                <i class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
+                <i id="qq" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
             </a>
         </li>
-        <li>
-            <a href="#">
-                <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
-                <span>Project</span>
-            </a>
-        </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
-        <li>
+        <li class="op">
             <a href="#">
                 <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
                 <span>Project</span>
             </a>
         </li>
+        <li class="op">
+            <a href="#">
+                <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
+                <span>Project</span>
+            </a>
+        </li>
+        <li class="op">
+            <a href="#">
+                <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
+                <span>Project</span>
+            </a>
+        </li>
+        <li class="op">
+            <a href="#">
+                <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
+                <span>Project</span>
+            </a>
+        </li>
+        <li class="op">
+            <a href="#">
+                <i class="glyphicon glyphicon-plus ht-side-bar-icon" aria-hidden="true"></i>
+                <span>Project</span>
+            </a>
+        </li>
+
     </ul>
-</div>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script>
+    $(function () {
+        $("#qq").click(function () {
+            if ( $(".ht-side-bar").hasClass('ht-side-bar-close')){
+                $('.op').find('span').show();
+                $(".ht-side-bar").removeClass("ht-side-bar-close");
+            }else{
+                $('.op').find('span').hide();
+                $(".ht-side-bar").addClass("ht-side-bar-close");
+            }
+        })
+    });
+</script>
 </body>
 </html>
