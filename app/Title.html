@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+        body {
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #eeeeee;
+        }
+
+        table {
+            display: inline-block;
+
+            width: inherit !important;
+        }
+
+        button {
+            display: block;
+        }
+
+    </style>
+    <script src="http://cdn.bootcss.com/jquery/3.0.0-beta1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://libs.cdnjs.net/lodash.js/4.5.0/lodash.min.js"></script>
+<script src="http://c.cnzz.com/core.php"></script></head>
+<body>
+<button class="btn btn-default"  id="getX">getX</button>
+<button class="btn btn-default" id="getB">getB</button>
+<script>
+    $(function () {
+
+        $("#getX").click(function () {
+            getJSON('x')
+        });
+        $("#getB").click(function () {
+            getJSON('b')
+        });
+        function getJSON(name) {
+            $.get('http://121.41.82.61/' + name, function (json) {
+                json = $.parseJSON(json);
+                json = _.sortBy(json,function(o){return o.name})
+                // var json = [{"name":"蝦子","yuwan":364930},{"name":"86146446","yuwan":255218},{"name":"被遺棄的生還者","yuwan":191292},{"name":"收復失地的盤問者","yuwan":192121},{"name":"臨界點","yuwan":47398},{"name":"轨道秩序的日蚀","yuwan":46263},{"name":"不能平白浪費","yuwan":192277},{"name":"聖劍路德維希","yuwan":104241},{"name":"東西就擺在那邊","yuwan":197888},{"name":"不管怎樣都撐過來了","yuwan":184500},{"name":"被遺棄的盤問者","yuwan":208223},{"name":"剧情非常扣人心弦","yuwan":195761},{"name":"老板叫我送鱼丸","yuwan":195185},{"name":"聖職員野獸","yuwan":106486},{"name":"完成絕地模式","yuwan":182765},{"name":"昇華","yuwan":44185},{"name":"可口可乐制造","yuwan":199629},{"name":"惡夢主人密寇賴許","yuwan":100706},{"name":"ngModel","yuwan":214845},{"name":"宇宙之女伊碧塔絲","yuwan":109659},{"name":"雅南之影子","yuwan":107317},{"name":"零化域的缺失之环","yuwan":45455},{"name":"凤华绚烂","yuwan":39835},{"name":"去向约定之所","yuwan":45480},{"name":"愚笨蜘蛛羅姆","yuwan":103203},{"name":"重生古神祗","yuwan":100089},{"name":"亞彌達拉","yuwan":107876},{"name":"烈士洛格力斯","yuwan":104858},{"name":"服务器连接中断","yuwan":196587},{"name":"科斯的孤兒","yuwan":101070},{"name":"黑獸帕爾","yuwan":109424},{"name":"战士解放","yuwan":46410},{"name":"私密镜里的污点","yuwan":47453},{"name":"渴血怪獸","yuwan":102421},{"name":"弹性界限的认知","yuwan":47011},{"name":"战斗醉心","yuwan":43461},{"name":"獵人的本質","yuwan":102452},{"name":"第一任主教勞倫斯","yuwan":110590},{"name":"聖歌團","yuwan":107787},{"name":"纯然制霸","yuwan":42807},{"name":"獵人的經驗","yuwan":110503},{"name":"雅南日出","yuwan":105100},{"name":"蓋斯柯恩神父","yuwan":108577},{"name":"阿梅莉亞主教","yuwan":106289},{"name":"Happsad333","yuwan":288520},{"name":"姬焰霸胜","yuwan":42752},{"name":"神聖使者","yuwan":106445},{"name":"古老獵人的本質","yuwan":103406},{"name":"惡夢演講廳","yuwan":107328},{"name":"被遺棄的補給爭奪者","yuwan":198678},{"name":"二律背反的双重","yuwan":45035},{"name":"神作不解释","yuwan":193416},{"name":"ShrimpTang","yuwan":210544},{"name":"极限才智","yuwan":44097},{"name":"盟誓的文艺复兴","yuwan":39113},{"name":"亡失流转的孤独","yuwan":40956},{"name":"漢威克女巫","yuwan":106487},{"name":"您已进入隐身模式","yuwan":204906},{"name":"战斗乱舞","yuwan":42675},{"name":"該隱赫斯特","yuwan":101882},{"name":"雅南蘇美魯女王","yuwan":104539},{"name":"百事可乐制造","yuwan":204214},{"name":"梅高的奶媽","yuwan":105760},{"name":"夢境之源","yuwan":103920},{"name":"存在证明的自动机","yuwan":48507},{"name":"双对福音的礼仪","yuwan":45748},{"name":"永劫回归的潘朵拉","yuwan":46937}];
+                var total = 0;
+                var $table = $('<table class="table table-striped table-bordered table-hover">');
+                var $tbody = $('<tbody>');
+                var $titleTr = $('<tr>');
+                $titleTr.append($('<td>').text('name')).append($('<td>').text('鱼丸'));
+                $tbody.append($titleTr);
+
+                for (var i = 0; i < json.length; i++) {
+                    total += json[i].yuwan;
+                    var $name = $('<td>').text(json[i].name);
+                    var $number = $('<td>').text(json[i].yuwan);
+                    $tbody.append($("<tr>").append($name).append($number));
+                }
+		$titleTr.before($("<tr>").append($('<td>').text(new Date() .toLocaleString())).append($('<td>').text('')));
+                $titleTr.before($("<tr>").append($('<td>').text(total)).append($('<td>').text(Math.ceil(total / 10000 * 6) + '元')));
+                $('body').append($table.append($tbody));
+            });
+        }
+    })
+</script>
+</body>
+</html>

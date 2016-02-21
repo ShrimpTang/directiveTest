@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="myCtrl">
+<script src="../bower_components/angular/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+            .factory('foo', function () {
+                return {
+                    name: 'Angular'
+                }
+            })
+            .config(function ($provide) {
+                $provide.decorator('foo', function ($delegate) {
+                    $delegate.say = function () {
+                        return 'qq'
+                    }
+                    return $delegate;
+                })
+            })
+            .controller('myCtrl', ['foo', function (foo) {
+                console.info(foo.say())
+            }]);
+</script>
+</body>
+</html>
